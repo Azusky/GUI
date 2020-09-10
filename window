@@ -1,0 +1,57 @@
+import tkinter as tk
+from back_end import valut
+
+
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+
+        ############### Titlu #####################
+        self.label = tk.Label(self, text="Convertor")
+        self.label.grid(row=0, column=1)
+
+        ################# SUM #####################
+        self.label_suma = tk.Label(self, text="Suma:")
+        self.label_suma.grid(row=1, column=0)
+        self.sum_1 = tk.Entry(self)
+        self.sum_1.grid(row=1, column=1)
+
+
+        ################ Valuta ##################
+        self.label_valuta = tk.Label(self, text="Valuta:")
+        self.label_valuta.grid(row=1, column=2)
+
+        self.valut = tk.Entry(self)
+        self.valut.grid(row=1, column=3)
+
+        ################### Curenta ###############
+        self.label_curenta = tk.Label(self, text="Curenta:")
+        self.label_curenta.grid(row=2, column=2)
+
+        self.curenta = tk.Entry(self)
+        self.curenta.grid(row=2, column=3)
+
+        ################# Buton Calc ##################
+        self.action_button = tk.Button(self)
+        self.action_button['text'] = 'Calculate'
+        self.action_button.grid(row=3, column=1)
+        self.action_button['command'] = self.calculate
+
+        ################## Resultat #######################
+        self.resultat = tk.Label(self)
+        self.resultat.grid(row=2, column=1)
+
+    def calculate(self):
+        s = int(self.sum_1.get())
+        v = self.valut.get()
+        c = self.curenta.get()
+        r = valut.fixerDataNow(s, v, c)
+        self.resultat['text'] = str(r)
+
+
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
