@@ -1,0 +1,25 @@
+
+from os import path
+import json
+import requests
+import datetime
+
+def fixerDataNow(sum, val, curenta):
+    key = 'access_key=74a5e9d05c93c389033456829ca0bcfd'
+    endpoint = 'http://data.fixer.io/api/latest?' + key
+    today = datetime.datetime.now()
+    ymd = (str(today)).split(" ")[0]
+    file_name = f'./rates--{ymd}.json'
+
+    if path.exists(file_name):  # sa alegi sursa
+        file = open(file_name, 'r')
+        data = json.loads(file.read())
+    else:
+        response = requests.get(endpoint)
+        data = json.loads(response.text)
+        file = open(file_name, 'w')
+        file.write(response.text)
+        file.close()
+
+    cov_sum = int(sum) * data['rates'][curenta] / data['rates'][val]
+    return cov_sum
